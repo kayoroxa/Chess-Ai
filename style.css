@@ -1,0 +1,69 @@
+chess-board {
+  background-image: url(https://images.chesscomfiles.com/chess-themes/boards/blue/200.png);
+  width: 800px; /* Defina o tamanho do tabuleiro */
+  height: 800px; /* Defina o tamanho do tabuleiro */
+  margin: auto; /* Centralize o tabuleiro na tela */
+  display: block; /* Certifique-se de que o chess-board seja exibido como bloco */
+  user-select: none;
+}
+
+.board {
+  background-repeat: no-repeat;
+  background-size: 100%;
+  position: relative;
+}
+
+svg text {
+  font-family: sans-serif;
+}
+
+svg text.coordinate-light {
+  fill: #258ccc;
+}
+
+svg text.coordinate-dark {
+  fill: #fff;
+}
+
+.piece {
+  background-size: 100%;
+  cursor: pointer;
+  /* cursor: grab; */
+  /* cursor: -webkit-grab; */
+  height: 12.5%;
+  left: 0;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  touch-action: none;
+  width: 12.5%;
+  will-change: transform;
+}
+
+.piece.selected {
+  background-color: #1e91d9bd;
+}
+
+.hint,
+.capture-hint {
+  height: 12.5%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 12.5%;
+  cursor: pointer;
+
+  box-sizing: border-box;
+  background-clip: content-box;
+  border-radius: 50%;
+}
+
+.hint.move {
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 4.2%;
+}
+
+.hint.capture {
+  border: 5px solid rgba(0, 0, 0, 0.1);
+  border-width: 6.7px;
+}
