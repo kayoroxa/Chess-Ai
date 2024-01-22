@@ -43,13 +43,6 @@ svg text.coordinate-dark {
 .piece.selected {
   background-color: #1e91d9bd;
 }
-.piece.selected.no-move {
-  background-color: #fe8484;
-}
-
-.piece.last-selected {
-  background-color: #1e91d9bd;
-}
 
 .hint,
 .capture-hint {

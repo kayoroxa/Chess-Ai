@@ -1,18 +1,6 @@
-import { letterSquare } from './utils/convertNumberSquare.js'
 import { getUniqId } from './utils/id.js'
-;['pawn', 'knight', 'rook', 'bishop', 'queen', 'king']
-
-const typeSpreed = {
-  p: 'pawn',
-  n: 'knight',
-  r: 'rook',
-  b: 'bishop',
-  q: 'queen',
-  k: 'king',
-}
 
 export function Peace({ type, side, initialSquare }) {
-  type = typeSpreed[type] || type
   let currentSquare = initialSquare || false
   const id = side[0] + (type === 'knight' ? 'n' : type[0])
   const uniqId = getUniqId()
@@ -47,9 +35,6 @@ export function Peace({ type, side, initialSquare }) {
     type,
     currentSquare,
     setCurrentSquare,
-    get currentLetterSquare() {
-      return letterSquare(currentSquare)
-    },
     side,
   }
 

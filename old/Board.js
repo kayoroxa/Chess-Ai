@@ -1,4 +1,4 @@
-import { Moves } from './moves.js'
+import { Moves, getMoveAndTakePawn } from './moves.js'
 
 const boardHtml = document.querySelector('.board')
 const { getMovesFrom } = Moves({})
@@ -28,8 +28,7 @@ function removeAllSelected(elem) {
 }
 
 export function Board() {
-  const funcsObs = []
-  let allPeaces = []
+  const allPeaces = []
 
   // function getPlacesOcupied() {
   //   const intries = allPeaces.map(peace => [peace.currentSquare, peace])
@@ -50,7 +49,7 @@ export function Board() {
 
   function showPath(
     arrayNumbersSquare,
-    myselfExcludeNumberSquare = null,
+    myselfExcludeNumberSquare,
     fixed = false, // capture | move,
     allowRemoveHints = true
   ) {
@@ -112,7 +111,6 @@ export function Board() {
     elem.onclick = () => {
       removeAllSelected(elem)
       elem.classList.toggle('selected')
-      elem.classList.remove('no-move')
 
       if (elem.classList.contains('selected')) {
         peaceSelectedId = peace.id
@@ -120,40 +118,32 @@ export function Board() {
           peace => peace.id !== peaceSelectedId
         )
 
-        funcsObs.forEach(({ type, func }) => {
-          if (type === 'select') {
-            const result = func(peace)
-            showPath(result)
-            if (result?.length === 0) elem.classList.add('no-move')
-          }
-        })
-
-        // if (peace.type === 'pawn') {
-        //   const { move, take } = getMoveAndTakePawn(
-        //     {
-        //       column: peace.getColumn(),
-        //       line: peace.getLine(),
-        //       type: peace.type,
-        //       side: peace.side,
-        //       squareNumbersInUse: othersPeace.map(peace => peace.currentSquare),
-        //     },
-        //     peace.currentSquare
-        //   )
-        //   const allowRemove = false
-        //   showPath(move, peace.currentSquare, 'move', allowRemove)
-        //   showPath(take, peace.currentSquare, 'capture', allowRemove)
-        // } else {
-        //   showPath(
-        //     getMovesFrom({
-        //       column: peace.getColumn(),
-        //       line: peace.getLine(),
-        //       type: peace.type,
-        //       side: peace.side,
-        //       squareNumbersInUse: othersPeace.map(peace => peace.currentSquare),
-        //     }),
-        //     peace.currentSquare
-        //   )
-        // }
+        if (peace.type === 'pawn') {
+          const { move, take } = getMoveAndTakePawn(
+            {
+              column: peace.getColumn(),
+              line: peace.getLine(),
+              type: peace.type,
+              side: peace.side,
+              squareNumbersInUse: othersPeace.map(peace => peace.currentSquare),
+            },
+            peace.currentSquare
+          )
+          const allowRemove = false
+          showPath(move, peace.currentSquare, 'move', allowRemove)
+          showPath(take, peace.currentSquare, 'capture', allowRemove)
+        } else {
+          showPath(
+            getMovesFrom({
+              column: peace.getColumn(),
+              line: peace.getLine(),
+              type: peace.type,
+              side: peace.side,
+              squareNumbersInUse: othersPeace.map(peace => peace.currentSquare),
+            }),
+            peace.currentSquare
+          )
+        }
       } else {
         removeHints()
       }
@@ -161,23 +151,16 @@ export function Board() {
   }
 
   function onClickHint(hintElemHtml, capture = false) {
-    const peace = allPeaces.find(peace => peace.id === peaceSelectedId)
-    const currentSquare = Number(hintElemHtml.getAttribute('square'))
     hintElemHtml.onclick = () => {
-      funcsObs.forEach(({ type, func }) => {
-        if (type === 'click-hint') {
-          func(peace, currentSquare)
-        }
-      })
-      // movePlay()
-      //
-      // if (capture) {
-      //   capturePeaceFromSquare(currentSquare)
-      // }
-      // const peace = allPeaces.find(peace => peace.id === peaceSelectedId)
-      // peace.currentSquare = currentSquare
-      // clientMove(peace.id, currentSquare)
-      // removeAllSelected()
+      movePlay()
+      const currentSquare = Number(hintElemHtml.getAttribute('square'))
+      if (capture) {
+        capturePeaceFromSquare(currentSquare)
+      }
+      const peace = allPeaces.find(peace => peace.id === peaceSelectedId)
+      peace.currentSquare = currentSquare
+      clientMove(peace.id, currentSquare)
+      removeAllSelected()
     }
   }
 
@@ -188,23 +171,9 @@ export function Board() {
     boardHtml.append(peace.elem)
   }
 
-  function on(type, callBack) {
-    funcsObs.push({ type, func: callBack })
-  }
-
-  function reset() {
-    allPeaces.forEach(peace => {
-      peace.elem.remove()
-    })
-    allPeaces = []
-    removeHints()
-  }
-
   return {
     showPath,
     removeHints,
     append,
-    on,
-    reset,
   }
 }
