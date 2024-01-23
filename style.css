@@ -1,8 +1,20 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: white;
+}
+
+body,
+html {
+  background-color: #302e2b;
+}
+
 chess-board {
   background-image: url(https://images.chesscomfiles.com/chess-themes/boards/blue/200.png);
   width: 800px; /* Defina o tamanho do tabuleiro */
   height: 800px; /* Defina o tamanho do tabuleiro */
-  margin: auto; /* Centralize o tabuleiro na tela */
+  /* margin: auto; Centralize o tabuleiro na tela */
   display: block; /* Certifique-se de que o chess-board seja exibido como bloco */
   user-select: none;
 }
@@ -40,11 +52,15 @@ svg text.coordinate-dark {
   will-change: transform;
 }
 
+.piece.tips {
+  background-color: #1e5cd9bd;
+}
+
 .piece.selected {
-  background-color: #1e91d9bd;
+  background-color: #1e91d9bd !important;
 }
 .piece.selected.no-move {
-  background-color: #fe8484;
+  background-color: #fe8484 !important;
 }
 
 .piece.last-selected {
@@ -73,4 +89,42 @@ svg text.coordinate-dark {
 .hint.capture {
   border: 5px solid rgba(0, 0, 0, 0.1);
   border-width: 6.7px;
+}
+
+/* * { */
+/* transition: transform 5s ease-in-out; */
+/* } */
+
+#board-layout {
+  display: flex;
+  padding: 20px;
+}
+
+#app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+}
+
+#controls {
+  padding-top: 10px;
+  /* background-color: black; */
+  display: flex;
+  width: 40px;
+  justify-content: center;
+  align-items: start;
+}
+
+#flip-button {
+  opacity: 20%;
+  background-color: #302e2b;
+  border: none;
+  cursor: pointer;
+  font-size: 25px;
+}
+
+#flip-button:hover {
+  opacity: 100%;
 }

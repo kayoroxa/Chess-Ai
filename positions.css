@@ -226,12 +226,12 @@
   transform: translate(600%, 600%);
 }
 
-.pseudo3d [square='72'] {
-  z-index: 7;
-}
-
 .flipped [square='72'] {
   transform: translate(100%, 100%);
+}
+
+.pseudo3d [square='72'] {
+  z-index: 7;
 }
 
 .pseudo3d.flipped [square='72'] {

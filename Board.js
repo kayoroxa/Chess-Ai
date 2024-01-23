@@ -200,11 +200,21 @@ export function Board() {
     removeHints()
   }
 
+  function notify(_type) {
+    funcsObs.forEach(({ type, func }) => {
+      if (type === _type) {
+        func()
+      }
+    })
+  }
+
   return {
     showPath,
     removeHints,
+    removeAllSelected,
     append,
     on,
+    notify,
     reset,
   }
 }
